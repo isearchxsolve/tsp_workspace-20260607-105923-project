@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <meta charset='UTF-8'>
+  <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+  <title>Travelling Salesman Problem Solver</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+  </style>
+</head>
+<body>
+  <h1>Travelling Salesman Problem Solver</h1>
+  <form id='tsp-form'>
+    <label for='graph'>Enter graph:</label>
+    <textarea id='graph' name='graph'></textarea>
+    <button type='submit'>Solve</button>
+  </form>
+  <div id='result'></div>
+
+  <script>
+    const form = document.getElementById('tsp-form');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const graph = document.getElementById('graph').value;
+      const response = await fetch('/solve', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ graph: JSON.parse(graph) }),
+      });
+      const result = await response.json();
+      document.getElementById('result').innerText = `Path: ${result.path}`;
+    });
+  </script>
+</body>
+</html>
